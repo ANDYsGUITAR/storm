@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: org.zyp.testmybatis.TestMybBatis
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.011 sec <<< FAILURE!
+org.zyp.testmybatis.TestMybBatis.test1()  Time elapsed: 0.011 sec  <<< FAILURE!
+java.lang.NullPointerException
+	at org.zyp.testmybatis.TestMybBatis.test1(TestMybBatis.java:31)
+
