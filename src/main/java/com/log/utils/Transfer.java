@@ -115,12 +115,12 @@ public class Transfer
     	job.setCreationUser("Andy");
     	// set the "FROM" link job config values
     	MFromConfig fromJobConfig = job.getFromJobConfig();
-    	fromJobConfig.getStringInput("fromJobConfig.inputDirectory").setValue("/user/hive/warehouse/toplesson2017/");
+    	fromJobConfig.getStringInput("fromJobConfig.inputDirectory").setValue("/user/hadoop/output/clean/MonthySumLearnTime");
     	//fromJobConfig.getStringInput("fromJobConfig.partitionColumn").setValue("id");
     	// set the "TO" link job config values
     	MToConfig toJobConfig = job.getToJobConfig();
     	toJobConfig.getStringInput("toJobConfig.schemaName").setValue("Log");
-    	toJobConfig.getStringInput("toJobConfig.tableName").setValue("topLesson");
+    	toJobConfig.getStringInput("toJobConfig.tableName").setValue("MonthyLearnTime");
     	//toJobConfig.getStringInput("toJobConfig.outputDirectory").setValue("/usr/tmp");
     	// set the driver config values
     	//MDriverConfig driverConfig = job.getDriverConfig();

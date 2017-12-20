@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.log.dao.preBookMapper" >
+  <resultMap id="BaseResultMap" type="com.log.model.preBook" >
+    <id column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="book1_no" property="book1_no" jdbcType="VARCHAR" />
+    <result column="book2_no" property="book2_no" jdbcType="VARCHAR" />
+    <result column="book3_no" property="book3_no" jdbcType="VARCHAR" />
+    <result column="book4_no" property="book4_no" jdbcType="VARCHAR" />
+    <result column="book5_no" property="book5_no" jdbcType="VARCHAR" />
+    <result column="book6_no" property="book6_no" jdbcType="VARCHAR" />
+    <result column="book7_no" property="book7_no" jdbcType="VARCHAR" />
+    <result column="book8_no" property="book8_no" jdbcType="VARCHAR" />
+    <result column="book9_no" property="book9_no" jdbcType="VARCHAR" />
+    <result column="book10_no" property="book10_no" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, book1_no, book2_no, book3_no, book4_no, book5_no, book6_no, book7_no, book8_no, 
+    book9_no, book10_no
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from predict
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from predict
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.log.model.preBook" >
+    insert into predict (user_id, book1_no, book2_no, 
+      book3_no, book4_no, book5_no, 
+      book6_no, book7_no, book8_no, 
+      book9_no, book10_no)
+    values (#{user_id,jdbcType=INTEGER}, #{book1_no,jdbcType=VARCHAR}, #{book2_no,jdbcType=VARCHAR}, 
+      #{book3_no,jdbcType=VARCHAR}, #{book4_no,jdbcType=VARCHAR}, #{book5_no,jdbcType=VARCHAR}, 
+      #{book6_no,jdbcType=VARCHAR}, #{book7_no,jdbcType=VARCHAR}, #{book8_no,jdbcType=VARCHAR}, 
+      #{book9_no,jdbcType=VARCHAR}, #{book10_no,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.log.model.preBook" >
+    insert into predict
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="user_id != null" >
+        user_id,
+      </if>
+      <if test="book1_no != null" >
+        book1_no,
+      </if>
+      <if test="book2_no != null" >
+        book2_no,
+      </if>
+      <if test="book3_no != null" >
+        book3_no,
+      </if>
+      <if test="book4_no != null" >
+        book4_no,
+      </if>
+      <if test="book5_no != null" >
+        book5_no,
+      </if>
+      <if test="book6_no != null" >
+        book6_no,
+      </if>
+      <if test="book7_no != null" >
+        book7_no,
+      </if>
+      <if test="book8_no != null" >
+        book8_no,
+      </if>
+      <if test="book9_no != null" >
+        book9_no,
+      </if>
+      <if test="book10_no != null" >
+        book10_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="user_id != null" >
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="book1_no != null" >
+        #{book1_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book2_no != null" >
+        #{book2_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book3_no != null" >
+        #{book3_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book4_no != null" >
+        #{book4_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book5_no != null" >
+        #{book5_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book6_no != null" >
+        #{book6_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book7_no != null" >
+        #{book7_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book8_no != null" >
+        #{book8_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book9_no != null" >
+        #{book9_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book10_no != null" >
+        #{book10_no,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.log.model.preBook" >
+    update predict
+    <set >
+      <if test="book1_no != null" >
+        book1_no = #{book1_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book2_no != null" >
+        book2_no = #{book2_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book3_no != null" >
+        book3_no = #{book3_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book4_no != null" >
+        book4_no = #{book4_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book5_no != null" >
+        book5_no = #{book5_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book6_no != null" >
+        book6_no = #{book6_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book7_no != null" >
+        book7_no = #{book7_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book8_no != null" >
+        book8_no = #{book8_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book9_no != null" >
+        book9_no = #{book9_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book10_no != null" >
+        book10_no = #{book10_no,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.log.model.preBook" >
+    update predict
+    set book1_no = #{book1_no,jdbcType=VARCHAR},
+      book2_no = #{book2_no,jdbcType=VARCHAR},
+      book3_no = #{book3_no,jdbcType=VARCHAR},
+      book4_no = #{book4_no,jdbcType=VARCHAR},
+      book5_no = #{book5_no,jdbcType=VARCHAR},
+      book6_no = #{book6_no,jdbcType=VARCHAR},
+      book7_no = #{book7_no,jdbcType=VARCHAR},
+      book8_no = #{book8_no,jdbcType=VARCHAR},
+      book9_no = #{book9_no,jdbcType=VARCHAR},
+      book10_no = #{book10_no,jdbcType=VARCHAR}
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,11 +1,13 @@
 package com.log.dao;
 
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 
 import com.log.model.topLesson;
 import com.log.model.topLessonKey;
+import com.log.pojo.topLessonPojo;
 
 public interface topLessonMapper {
     int deleteByPrimaryKey(topLessonKey key);
@@ -19,9 +21,8 @@ public interface topLessonMapper {
     int updateByPrimaryKeySelective(topLesson record);
 
     int updateByPrimaryKey(topLesson record);
-    /**********************************************************/
-    //统计每年topN书
-    List<topLesson> topOnYear(String year);
-    //统计至今为止的topN书
-     Map<String,Integer>  topLesson();
+    
+    List<LinkedHashMap<String,Object>> topLesson();
+    List<topLessonPojo> randomTopLesson(@Param("startTime") String startTime,@Param("endTime") String endTime);
+    
 }

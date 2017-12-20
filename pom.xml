@@ -26,6 +26,24 @@
       <scope>test</scope>
     </dependency>
     
+ <dependency> <!-- Spark dependency -->
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-sql_2.11</artifactId>
+      <version>2.2.0</version>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.spark</groupId>
+    <artifactId>spark-mllib-local_2.11</artifactId>
+    <version>2.2.0</version>
+        </dependency>
+        
+            <dependency>
+    <groupId>org.apache.spark</groupId>
+    <artifactId>spark-mllib_2.11</artifactId>
+    <version>2.2.0</version>
+        </dependency>
+    
+    
     	 <!-- spring核心包 -->  
         <dependency>  
             <groupId>org.springframework</groupId>  

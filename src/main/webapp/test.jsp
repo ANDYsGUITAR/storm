@@ -25,10 +25,10 @@
                                     			topLesson lesson;
                                     			lesson=list.get(i);
                                     			out.println("<tr>");
-                                    			out.println("<td>"+lesson.getBook_rank()+"</td>");
+                                    			out.println("<td>"+lesson.getBook_id()+"</td>");
                                     		    out.println("<td>"+lesson.getBook_id()+"</td>");
                                     		    out.println("<td>"+"</td>");
-                                    		    out.println("<td>"+lesson.getBook_num()+"</td>");
+                                    		    out.println("<td>"+lesson.getBook_id()+"</td>");
                                     		    out.println("</tr>");
                                     		}
                                     	}                                    

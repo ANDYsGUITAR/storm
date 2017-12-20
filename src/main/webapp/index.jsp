@@ -256,6 +256,18 @@
                     <li>
                         <a href="showtopLesson.jsp" ><i class="fa fa-table"></i> 全站最受欢迎的课程TopN</a>
                     </li>
+                        <li>
+                        <a  href="Recommendation.jsp"><i class="fa fa-fw fa-file"></i> 学习预测</a>
+                    </li>
+                        <li>
+                        <a href="statistics.jsp"><i class="fa fa-fw fa-file"></i>学习统计</a>
+                    </li>
+                     <li>
+                        <a href="figure.jsp"><i class="fa fa-fw fa-file"></i> 人物画像</a>
+                    </li>
+                    <li>
+                        <a href="cluster.jsp"><i class="fa fa-fw fa-file"></i> 聚类分析</a>
+                    </li>                       
 
                    
                 </ul>

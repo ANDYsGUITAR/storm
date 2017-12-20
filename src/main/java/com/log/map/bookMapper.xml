@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.log.dao.bookMapper" >
+  <resultMap id="BaseResultMap" type="com.log.model.book" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="book_id" property="book_id" jdbcType="VARCHAR" />
+    <result column="book_name" property="book_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, book_id, book_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bookInformation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bookInformation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.log.model.book" >
+    insert into bookInformation (id, book_id, book_name
+      )
+    values (#{id,jdbcType=INTEGER}, #{book_id,jdbcType=VARCHAR}, #{book_name,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.log.model.book" >
+    insert into bookInformation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="book_id != null" >
+        book_id,
+      </if>
+      <if test="book_name != null" >
+        book_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="book_id != null" >
+        #{book_id,jdbcType=VARCHAR},
+      </if>
+      <if test="book_name != null" >
+        #{book_name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.log.model.book" >
+    update bookInformation
+    <set >
+      <if test="book_id != null" >
+        book_id = #{book_id,jdbcType=VARCHAR},
+      </if>
+      <if test="book_name != null" >
+        book_name = #{book_name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.log.model.book" >
+    update bookInformation
+    set book_id = #{book_id,jdbcType=VARCHAR},
+      book_name = #{book_name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

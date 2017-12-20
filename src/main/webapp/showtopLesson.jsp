@@ -7,35 +7,203 @@
             + request.getServerName() + ":" + request.getServerPort()
             + path + "/";
 %>
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-      <base href="<%=basePath%>">
+<base href="<%=basePath%>">
+<script src="js/echarts.js"></script>
+
+<script type="text/JavaScript">
+
+
+function checkDate(){
+	   var startYear = document.getElementById("startYear").value;
+	   var startMonth = document.getElementById("startMonth").value;
+	   var endYear = document.getElementById("endYear").value;
+	   var endMonth = document.getElementById("endMonth").value;
+	   
+	   if(startYear == "--"||startMonth==  "--"|| endYear == "--"||endMonth==  "--"){
+	     alert("请填写完整时间段");
+	     return false;
+	   }
+	   if(startYear > endYear  ){
+	    alert("请正确填写时间段");
+	     return false;
+	   }
+	   else if ((startYear==endYear)&&(startMonth>endMonth)){
+		    alert("请正确填写时间段");
+		     return false;
+	   }
+	   else{
+		   var startYear=$("#startYear").val();
+		   var startMonth=$("#startMonth").val();
+		  var endYear=$("#endYear").val();
+		  var endMonth=$("#endMonth").val();		
+		  var postData={"startYear":startYear,"startMonth":startMonth,"endYear":endYear,"endMonth":endMonth};			
+		    
+		    var rank=[];  
+	        var num=[];  
+	
+		   $.ajax({
+				  async : true,
+	              cache : false,
+	              type : 'POST',			
+	 			   url:"topLesson/showtopLesson",
+	 			   dataType : "json",
+	             data : postData,            
+	             error : function() {
+	              alert('请求失败 ');
+	              },
+	 			success:function(data){
+	 				alert("success");
+	 				//表格
+	 				$('#table').bootstrapTable('destroy');
+	 				$('#table').bootstrapTable({
+						data:data,
+						pagination:true,
+						pageNumber:1,
+					   
+					   pageSize:10,
+	 				    columns: [{
+	 				        field: 'rank',
+	 				        title: '排名'
+	 				    }, {
+	 				        field: 'book_id',
+	 				        title: '電子書ID'
+	 				    }, {
+	 				        field: 'num',
+	 				        title: '使用人数'
+	 				    }, ]  				    
+	 				});
+	 				//柱状图
+		  var barChart = echarts.init(document.getElementById('barChart'));
+	for (var i=0;i<10;i++)  
+    {  
+        rank.push(data[i].rank);  
+        num.push(data[i].num);  
+    }  
+			  var barOption = {
+					  title : {
+					        text: '全站最受欢迎课程Top10'
+					    },
+					  tooltip : {
+					        trigger: 'axis'
+					    }, 
+					    legend: {
+					        data:['使用人数']
+					    },
+					    toolbox: {
+					        show : true,
+					        feature : {
+					            dataView : {show: true, readOnly: false},
+					            magicType : {show: true, type: ['line', 'bar','pie']},
+					            restore : {show: true},
+					            saveAsImage : {show: true}
+					        }
+					    },
+					    calculable : true,
+					    xAxis:[
+						    {  
+						    	name:'排名',
+						    	type:'category',
+	                            data:[]
+						    }
+						    ], 
+						    yAxis : [
+						        {
+						        	name:'使用人数',
+						            type : 'value'
+						        }
+						    ],
+	                        series:[{
+	                        	name:'使用人数',
+	                        	type:'bar',
+	                        	barWidth:'60%',
+	                        	data:[]
+	                        }] 
+					};
+			 		barOption.xAxis[0].data=rank;
+			 		barOption.series[0].data=num;
+                    barChart.hideLoading();  
+                    barChart.setOption(barOption);
+                    //饼状图
+                    var label=[];
+                    var value=[];
+                    $.each(data,function(i,p){
+					label[i]=p['rank'];
+					value[i]={'name':p['rank'],'value':p['num']};
+					if(i>=9){
+						return false;
+					}
+                    });
+                    var pieChart = echarts.init(document.getElementById('pieChart'));
+                    var pieOption = {
+      					  title : {
+  					        text: '全站最受欢迎课程Top10'
+  					    },
+                    	    tooltip: {
+                    	        trigger: 'item',
+                    	        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    	    },
+                    	    legend: {
+                    	        orient: 'vertical',
+                    	        x: 'right',
+                    	        data:[]
+                    	    },
+                    	    series: [
+                    	        {
+                    	            name:'电子书使用人数',
+                    	            type:'pie',
+                    	            radius: ['50%', '70%'],
+                    	            avoidLabelOverlap: false,
+                    	            label: {
+                    	                normal: {
+                    	                    show: false,
+                    	                    position: 'center'
+                    	                },
+                    	                emphasis: {
+                    	                    show: true,
+                    	                    textStyle: {
+                    	                        fontSize: '30',
+                    	                        fontWeight: 'bold'
+                    	                    }
+                    	                }
+                    	            },
+                    	            labelLine: {
+                    	                normal: {
+                    	                    show: false
+                    	                }
+                    	            },
+                    	            data:[]
+                    	        }
+                    	    ]
+                    	};
+                    pieOption.legend.data=label;
+                    pieOption.series[0]['data']=value;
+                    pieChart.setOption(pieOption);
+	 			},// 	 			success截止
+
+	 		});				     //ajax截止
+      }
+	}
+</script>
+
       <meta charset="utf-8" />
       <meta http-equiv="X-UA-Compatible" content="IE=edge,firefox=1">
-      
-      <!-- 导入javabean-->
-      <%@ page import="com.log.model.*" %>
-      <%
-      	List<topLesson> list=(ArrayList<topLesson>)request.getAttribute("lessonList");
-      %>
+      <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>软酷网最受欢迎的课程TopN</title>
 	<!-- Bootstrap Styles-->
     <link href="${basePath}assets/css/bootstrap.css" rel="stylesheet" />
      <!-- FontAwesome Styles-->
     <link href="${basePath}assets/css/font-awesome.css" rel="stylesheet" />
-     <!-- Morris Chart Styles-->
-   
-        <!-- Custom Styles-->
+     <!-- Custom Styles-->
     <link href="${basePath}assets/css/custom-styles.css" rel="stylesheet" />
      <!-- Google Fonts-->
    <link href='http://fonts.useso.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
      <!-- TABLE STYLES-->
-    <link href="${basePath}assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
-        <link rel="stylesheet" href="${basePath}plugin/layui-v1.0.7/css/layui.css">
-    <link rel="stylesheet" href="${basePath}css/date.css">
+
+   <link rel="stylesheet" href="css/bootstrap-table.css">
 </head>
 <body>
     <div id="wrapper">
@@ -47,7 +215,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.jsp"><strong>软酷</strong></a>
+                <a class="navbar-brand" href="index.html"><strong>软酷</strong></a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
@@ -144,13 +312,24 @@
                    
                     
                     <li>
-                        <a href="showtoplesson.jsp" class="active-menu"><i class="fa fa-table"></i> 全站最受欢迎的课程TopN</a>
+                        <a href="showtopLesson.jsp" class="active-menu"><i class="fa fa-table"></i> 全站最受欢迎的课程TopN</a>
                     </li>
+                    
+                      <li>
+                        <a  href="Recommendation.jsp"><i class="fa fa-fw fa-file"></i> 学习预测</a>
+                    </li>
+                    <li>
+                        <a href="statistics.jsp"><i class="fa fa-fw fa-file"></i>学习统计</a>
+                    </li>
+                     <li>
+                        <a href="figure.jsp"><i class="fa fa-fw fa-file"></i> 人物画像</a>
+                    </li>
+                    <li>
+                        <a href="cluster.jsp"><i class="fa fa-fw fa-file"></i> 聚类分析</a>
+                    </li>                               
                    
                 </ul>
-
             </div>
-
         </nav>
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
@@ -167,121 +346,170 @@
 		</div>
 		
             <div id="page-inner"> 
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
+            <div class="row" id="row1">
+                <div class="col-md-12" id="row2">
+                        <div class="panel panel-default">
                         <div class="panel-heading">
                              课程TopN
                         </div>
+                        <div class="panel-body">         
+                      
+                      
+                        <div>
+                            <!--   月份选择器 -->
+                            请选择查询时间
+                            </br>
+                            </br>
+                            <div style="float: left;">
+                            
+                            <select id="startYear" name="startYear" class="form-control">
+                            <option value="2013">2013年</option>
+                            <option value="2014">2014年</option>
+                            <option value="2015">2015年</option>
+                            <option value="2016">2016年</option>
+                            <option value="2017" >2017年</option>
+                             <option value="2018" >2018年</option>
+                             <option value="--" selected="selected">起始年份</option>
+                            </select>
+                       
+                            </div>
+                            <div style="float: left;">
+                         
+                            <select id="startMonth" name="startMonth" class="form-control">
+                            <option value="01">1月</option>
+                            <option value="02">2月</option>
+                            <option value="03">3月</option>
+                            <option value="04">4月</option>
+                            <option value="05">5月</option>
+                            <option value="06">6月</option>
+                            <option value="07">7月</option>
+                            <option value="08">8月</option>
+                            <option value="09">9月</option>
+                            <option value="10">10月</option>
+                            <option value="11">11月</option>
+                            <option value="12" >12月</option>
+                             <option value="--" selected="selected">起始月份</option>
+                            </select>
+               
+                            </div>
+                            <div style="float: left;">
+                            &nbsp;&nbsp;至&nbsp;&nbsp;
+                            </div>
+                            <div style="float: left;">
+                          
+                            <select id="endYear" name="endYear" class="form-control">
+                            <option value="2013">2013年</option>
+                            <option value="2014">2014年</option>
+                            <option value="2015">2015年</option>
+                            <option value="2016">2016年</option>
+                            <option value="2017" >2017年</option>
+                            <option value="--" selected="selected">截止年份</option>
+                            </select>
+                        
+                            </div>
+                            <div style="float: left;">
+                           
+                            <select id="endMonth" name="endMonth" class="form-control">
+                            <option value="01">1月</option>
+                            <option value="02">2月</option>
+                            <option value="03">3月</option>
+                            <option value="04">4月</option>
+                            <option value="05">5月</option>
+                            <option value="06">6月</option>
+                            <option value="07">7月</option>
+                            <option value="08">8月</option>
+                            <option value="09">9月</option>
+                            <option value="10">10月</option>
+                            <option value="11">11月</option>
+                            <option value="12" >12月</option>
+                            <option value="--" selected="selected">截止年月</option>
+                            </select>
+                        
+                            </div>
+                            <div style="float: left;">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                            <div style="float: left;">
+                                      <input id="jsonget"  type="button"  value="确认" onclick = " checkDate()" class = "btn btn-primary">
+                                      
+                            </div>
+                            
+                            
+                            </div>
+                     
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                             表格展示
+                        </div>
+                        
                         <div class="panel-body">
-                        <form class="layui-form" action="" id="form">
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">时间段</label>
-                <div class="layui-input-inline ui-time">
-                    <input type="text" id="dp11" class="layui-input ui-time-text" value="" kssj="" jssj="" />
-                </div>
-                   <form method="post" action="topLesson/showtopLesson"> <input type="submit" value="查找"></form>
-            </div>
-        </div>
-    </form>
-  
-<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-<script src="${basePath}plugin/layui-v1.0.7/layui.js" type="text/javascript"></script>
-<script src="${basePath}main.js?1" type="text/javascript"></script>
-<script type="text/javascript">
-
-    layui.use(['laydate','dateLay'], function(){
-        var  layer = layui.layer,laydate = layui.laydate;
-        var obj={
-            init:function(){
-                this.dp11=$('#dp11');
-                this.dp12=$('#dp12');
-                this.initEvent();
-            },
-            initEvent:function(){
-                this.dp11.dateLay();
-                this.dp12.dateLay();
-                
-            }
-        }
-        obj.init();
-    });
-</script>
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example"
-                                >
-                                    <thead>
-                                        <tr>
-                                        
-                                            <th>排名</th>
-                                            <th>电子书ID</th>
-                                            <th>电子书名称</th>
-                                            <th>使用人数</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr class="gradeA">
-                                		<td>null</td>
-                                		<td>null</td>
-                                		<td>null</td>
-                                		 <td class="center"></td>
-                                </tr>
-                                      <%
-                                    	if(list==null||list.size()<=0){
-                                    		
-                                    	}else{
-                                    		for(int i=0;i<list.size();i++){
-                                    			topLesson lesson;
-                                    			lesson=list.get(i);
-                                    			out.println("<tr class=\"gradeA\">");
-                                    			out.println("<td>"+lesson.getBook_rank()+"</td>");
-                                    		    out.println("<td>"+lesson.getBook_id()+"</td>");
-                                    		    out.println("<td>"+"</td>");
-                                    		    out.println("<td class=\"center\">"+lesson.getBook_num()+"</td>");
-                                    		    out.println("</tr>");
-                                    		}
-                                    	}                                    
-                                    %>
-                                        
-                                    </tbody>
+                                 <table  id="table">
                                 </table>
                             </div>
                             
                         </div>
+              
                     </div>
                     <!--End Advanced Tables -->
+                    <!--从这开始是表格下的图表 -->
+                <div class="row" >
+                <div class="col-md-12" >
+                  <!--   柱状图 -->
+                    <div class="panel panel-default" >
+                        <div class="panel-heading">
+                            柱状图
+                        </div>                                                   
+                        <div class="panel-body" >
+                                 <div class="table-responsive">
+                                       <div id="barChart" style="width: 800px;height:600px;">                                       			
+                                       </div>                                        
+                                </div>
+                       </div>
+                      </div>
+                  </div>
+                     <!-- End  柱状图 -->
+                </div>
+                <div class="row">
+                <div class="col-md-12">
+                     <!--   饼状图  -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            饼状图
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <div id="pieChart" style="width: 800px;height:600px;">
+                            </div>
+                        </div>
+                    </div>
+                      <!-- End  饼状图  -->
                 </div>
             </div>
-           
+            <!-- 两个图表到此结束  -->
+                </div>
+                </div>
+            </div>
+                          <footer><p>Copyright© 2007-2017 Ruankosoft Technologies Co., Ltd. 粤B2-20100246 粤ICP备12081495号</footer>
             </div>
                 <!-- /. ROW  -->
+
         </div>
-               <footer><p>Copyright© 2007-2017 Ruankosoft Technologies Co., Ltd. 粤B2-20100246 粤ICP备12081495号</footer>
+
     </div>
-             <!-- /. PAGE INNER  -->
-            </div>
+    <!-- /. PAGE INNER  -->
          <!-- /. PAGE WRAPPER  -->
      <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
-    <!-- jQuery Js -->
-    <script src="${basePath}assets/js/jquery-1.10.2.js"></script>
-      <!-- Bootstrap Js -->
-    <script src="${basePath}assets/js/bootstrap.min.js"></script>
     <!-- Metis Menu Js -->
     <script src="${basePath}assets/js/jquery.metisMenu.js"></script>
-     <!-- DATA TABLE SCRIPTS -->
-    <script src="${basePath}assets/js/dataTables/jquery.dataTables.js"></script>
-    <script src="${basePath}assets/js/dataTables/dataTables.bootstrap.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('#dataTables-example').dataTable();
-            });
-    </script>
-         <!-- Custom Js -->
-    <script src="${basePath}assets/js/custom-scripts.js"></script>
-    
-   
+      <!--          Custom Js -->
+     <%--     <script src="${basePath}assets/js/custom-scripts.js"></script> --%>
+   <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+   <script src="js/bootstrap-table.js"></script>
+   <script src="js/bootstrap-table-zh-CN.js"></script>
 </body>
 </html>

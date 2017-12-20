@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.log.dao.LearnStatisticsMapper" >
+  <resultMap id="BaseResultMap" type="com.log.model.LearnStatistics" >
+    <id column="account_no" property="account_no" jdbcType="VARCHAR" />
+    <id column="book_id" property="book_id" jdbcType="VARCHAR" />
+    <result column="runtime" property="runtime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="LearnStatisticsResults" type="com.log.pojo.LearnStatisticsPojo">
+ 
+    <id column="account_no" property="account_no"/>
+    <result column="book_name" property="book_name" />
+  <result column="time" property="runtime"  />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    account_no, book_id, runtime
+  </sql>
+  
+  <select id="selectByAccount"  parameterType="string" resultMap="LearnStatisticsResults">
+ select b.account_no,bookInformation.book_name,b.time from(
+ select account_no,book_id,sum(runtime) as time  from learnStatistics group by account_no,book_id)b,bookInformation
+  where account_no=#{account_no} and b.book_id=bookInformation.book_id
+  </select>
+  
+  <select id="learnBookNum" parameterType="string" resultType="java.lang.Integer">
+  select booknum from(
+   select account_no,count(book_id) as booknum  from learnStatistics group by account_no)b
+   where account_no=#{account_no}
+  </select>
+  
+  <select id="sumLearnTime" parameterType="string" resultType="java.lang.String">
+  select alltime from(
+  select account_no,sum(runtime) as alltime from learnStatistics group by account_no)b
+     where account_no=#{account_no}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.log.model.LearnStatisticsKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from learnStatistics
+    where account_no = #{account_no,jdbcType=VARCHAR}
+      and book_id = #{book_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.log.model.LearnStatisticsKey" >
+    delete from learnStatistics
+    where account_no = #{account_no,jdbcType=VARCHAR}
+      and book_id = #{book_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.log.model.LearnStatistics" >
+    insert into learnStatistics (account_no, book_id, runtime
+      )
+    values (#{account_no,jdbcType=VARCHAR}, #{book_id,jdbcType=VARCHAR}, #{runtime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.log.model.LearnStatistics" >
+    insert into learnStatistics
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="account_no != null" >
+        account_no,
+      </if>
+      <if test="book_id != null" >
+        book_id,
+      </if>
+      <if test="runtime != null" >
+        runtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="account_no != null" >
+        #{account_no,jdbcType=VARCHAR},
+      </if>
+      <if test="book_id != null" >
+        #{book_id,jdbcType=VARCHAR},
+      </if>
+      <if test="runtime != null" >
+        #{runtime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.log.model.LearnStatistics" >
+    update learnStatistics
+    <set >
+      <if test="runtime != null" >
+        runtime = #{runtime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where account_no = #{account_no,jdbcType=VARCHAR}
+      and book_id = #{book_id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.log.model.LearnStatistics" >
+    update learnStatistics
+    set runtime = #{runtime,jdbcType=VARCHAR}
+    where account_no = #{account_no,jdbcType=VARCHAR}
+      and book_id = #{book_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

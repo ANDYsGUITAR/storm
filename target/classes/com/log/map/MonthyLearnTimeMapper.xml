@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.log.dao.MonthyLearnTimeMapper" >
+  <resultMap id="BaseResultMap" type="com.log.model.MonthyLearnTime" >
+    <id column="account_no" property="account_no" jdbcType="VARCHAR" />
+    <id column="date" property="date" jdbcType="VARCHAR" />
+    <result column="runtime" property="runtime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    account_no, date, runtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.log.model.MonthyLearnTimeKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from MonthyLearnTime
+    where account_no = #{account_no,jdbcType=VARCHAR}
+      and date = #{date,jdbcType=VARCHAR}
+  </select>
+    <select id="selectByYear" resultMap="BaseResultMap" parameterType="string" >
+    select 
+    <include refid="Base_Column_List" />
+    from MonthyLearnTime
+    where account_no = #{account_no}
+      and date regexp '^'+#{year}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.log.model.MonthyLearnTimeKey" >
+    delete from MonthyLearnTime
+    where account_no = #{account_no,jdbcType=VARCHAR}
+      and date = #{date,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.log.model.MonthyLearnTime" >
+    insert into MonthyLearnTime (account_no, date, runtime
+      )
+    values (#{account_no,jdbcType=VARCHAR}, #{date,jdbcType=VARCHAR}, #{runtime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.log.model.MonthyLearnTime" >
+    insert into MonthyLearnTime
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="account_no != null" >
+        account_no,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="runtime != null" >
+        runtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="account_no != null" >
+        #{account_no,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="runtime != null" >
+        #{runtime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.log.model.MonthyLearnTime" >
+    update MonthyLearnTime
+    <set >
+      <if test="runtime != null" >
+        runtime = #{runtime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where account_no = #{account_no,jdbcType=VARCHAR}
+      and date = #{date,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.log.model.MonthyLearnTime" >
+    update MonthyLearnTime
+    set runtime = #{runtime,jdbcType=VARCHAR}
+    where account_no = #{account_no,jdbcType=VARCHAR}
+      and date = #{date,jdbcType=VARCHAR}
+  </update>
+</mapper>
