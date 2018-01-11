@@ -15,7 +15,8 @@ import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;  
 import org.springframework.context.support.ClassPathXmlApplicationContext;  
 import org.springframework.test.context.ContextConfiguration;  
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;  
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.StopWatch;
 
 import com.alibaba.fastjson.JSON;
 import com.log.model.book;
@@ -50,8 +51,11 @@ public class TestPreBook {
   public void test1() {  
       //user user = userService.selectByPrimaryKey(1);
        //user user=userService.getUser("163ulcljupm");
+	  StopWatch test=new StopWatch("search");
+      test.start("PreBook");
+	  
 	    Integer id=userService.getUserIndex("163ulcljupm");
-	   System.out.println(id);
+	//   System.out.println(id);
 		preBook prebookTest=prebookservice.selectByPrimaryKey(id);
     	List<String> booklist=new ArrayList<String>();
        booklist.add(prebookTest.getBook1_no());
@@ -73,7 +77,7 @@ public class TestPreBook {
 	          int book_intid=Integer.parseInt(arr[0]);
 	          book bookTest=bookService.getbook(book_intid);
 	          String book_name=bookTest.getBook_name();
-	          System.out.println(book_intid+book_name);
+	         // System.out.println(book_intid+book_name);
 	          String score;
 	          double tmp=Double.valueOf(arr[1]);
 	         // System.out.println(tmp);
@@ -88,11 +92,13 @@ public class TestPreBook {
 	          }
 	          preBookPojo book=new preBookPojo(book_name,score,arr[1],i+1);
 	        
-	          System.out.println(book_name+score+i);
+	     //    System.out.println(book_name+score+i);
 	          bookList.add(book);
 	       //   preBookController bookTemp=new preBookController(book_stringid, score, i);
 	         // bookList.add(bookTemp);
 	       }
+	       test.stop();
+	       System.out.println(test.prettyPrint());
       logger.info(JSON.toJSONString(booklist));  
   }  
 }  

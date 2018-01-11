@@ -9,7 +9,7 @@
   </resultMap>
   
   <resultMap id="topLessonResults" type="com.log.pojo.topLessonPojo">
-  <id column="book_id" property="book_id" />
+  <id column="book_name" property="book_name" />
   <result column="num" property="num"  />
   <result column="rank" property="rank"/>
   </resultMap>
@@ -34,7 +34,7 @@
    order by num desc
   </select>
   <select id="randomTopLesson"  parameterType="string" resultMap="topLessonResults">
-       select book_id,num,
+  select bookInformation.book_name,c.num,c.rank from(select book_id,num,
 CASE
 when @rowtotal = num THEN
  @rownum
@@ -48,7 +48,8 @@ FROM
 select book_id,sum(rate) as num FROM(
 select book_id ,rate,CONCAT(year,"-",month) as time from topLesson)b 
 where time BETWEEN #{startTime} and #{endTime} GROUP BY (book_id) ORDER BY(num) desc
-)a,(SELECT @rownum := 0 ,@rowtotal := NULL) r;
+)a,(SELECT @rownum := 0 ,@rowtotal := NULL) r)c,bookInformation where c.book_id=bookInformation.book_id
+order by(c.num) desc;
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="com.log.model.topLessonKey" >

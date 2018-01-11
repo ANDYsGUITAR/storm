@@ -29,10 +29,7 @@
 			    },  ]  				    
 			});
 			}
-   
-   function barChart(data){
-	  
-   }
+
    
  	function Statistics(){
  		 var student_no=$("#student_no").val();
@@ -44,7 +41,7 @@
               type : 'POST',			
  			   url:"Statistics/LearnStatistics",
  			   dataType : "json",
-             data : postData,            
+             data : postData,
              error : function() {
               alert('请求失败 ');
               },
@@ -152,7 +149,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><strong>软酷</strong></a>
+                <a class="navbar-brand" href="index.jsp"><img src="assets/img/logo.png" alt="软酷网" style="position:absolute;bottom:8px; ">
+</a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
@@ -417,15 +415,14 @@
                                 <form id="account">
                                     <input  class="form-control" placeholder="学生账号"  id="student_no" name="student_no"  >
                                 </form>
-                            </div> <div class="panel-body">
-                                                        <div style="float: left;">
+                            </div> 
+                             <div style="float: left;">
                                                  &nbsp;&nbsp;&nbsp;&nbsp;
                                                        </div>                            
                             <!-- 确认按钮  -->
                             <div style="float: left;">
                             <button type="button" class="btn btn-primary" onclick="Statistics();">确认</button>
                             </div>
-                        </div>
                  </div>
 				</div>
 

@@ -68,8 +68,8 @@ function checkDate(){
 	 				        field: 'rank',
 	 				        title: '排名'
 	 				    }, {
-	 				        field: 'book_id',
-	 				        title: '電子書ID'
+	 				        field: 'book_name',
+	 				        title: '电子书名称'
 	 				    }, {
 	 				        field: 'num',
 	 				        title: '使用人数'
@@ -215,7 +215,8 @@ function checkDate(){
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><strong>软酷</strong></a>
+                <a class="navbar-brand" href="index.jsp"><img src="assets/img/logo.png" alt="软酷网" style="position:absolute;bottom:8px; ">
+</a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right">

@@ -20,19 +20,13 @@ public class Transfer
 {
 	public static String url = "http://localhost:12000/sqoop/";
 	public static SqoopClient client = new SqoopClient(url);
-    public static void main( String[] args )
-    {
-    	HDFStoMySQL();
-    	Clear();
-
-    }
-    private static void HDFStoMySQL() {
+    public static void HDFStoMySQL(String hdfspath,String tablename) {
     	CreateLink();
-    	CreateJob();
+    	CreateJob(hdfspath,tablename);
     	JobStart();
-		
+		Clear();
 	}
-	private static void Clear() {
+	public static void Clear() {
     	if(client.getJob("Transfer")!=null) {
     		client.deleteJob("Transfer");
     		System.out.println("Job Transfer is deleted.");
@@ -47,7 +41,7 @@ public class Transfer
     	}
     	
 	}
-	private static void JobStart() 
+	public static void JobStart() 
     {
     	MSubmission submission = client.startJob("Transfer");
     	System.out.println("Job Submission Status : " + submission.getStatus());
@@ -107,7 +101,7 @@ public class Transfer
        	 System.out.println("Something went wrong creating the link");
        	}
     }
-    public static void CreateJob() 
+    public static void CreateJob(String hdfspath,String tablename) 
     {
 
     	MJob job = client.createJob("hdfs_link", "mysql_link");
@@ -115,12 +109,12 @@ public class Transfer
     	job.setCreationUser("Andy");
     	// set the "FROM" link job config values
     	MFromConfig fromJobConfig = job.getFromJobConfig();
-    	fromJobConfig.getStringInput("fromJobConfig.inputDirectory").setValue("/user/hadoop/output/clean/MonthySumLearnTime");
+    	fromJobConfig.getStringInput("fromJobConfig.inputDirectory").setValue(hdfspath);
     	//fromJobConfig.getStringInput("fromJobConfig.partitionColumn").setValue("id");
     	// set the "TO" link job config values
     	MToConfig toJobConfig = job.getToJobConfig();
     	toJobConfig.getStringInput("toJobConfig.schemaName").setValue("Log");
-    	toJobConfig.getStringInput("toJobConfig.tableName").setValue("MonthyLearnTime");
+    	toJobConfig.getStringInput("toJobConfig.tableName").setValue(tablename);
     	//toJobConfig.getStringInput("toJobConfig.outputDirectory").setValue("/usr/tmp");
     	// set the driver config values
     	//MDriverConfig driverConfig = job.getDriverConfig();

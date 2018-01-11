@@ -1,15 +1,10 @@
 package com.log.pojo;
 
 public class topLessonPojo {
-       private String book_id;
+       private String book_name;
        private int num;
        private int rank;
-	public String getBook_id() {
-		return book_id;
-	}
-	public void setBook_id(String book_id) {
-		this.book_id = book_id;
-	}
+	
 	public int getNum() {
 		return num;
 	}
@@ -22,5 +17,12 @@ public class topLessonPojo {
 	public void setRank(int rank) {
 		this.rank = rank;
 	}
+	public String getBook_name() {
+		return book_name;
+	}
+	public void setBook_name(String book_name) {
+		this.book_name = book_name;
+	}
+	
        
 }

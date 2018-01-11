@@ -1,10 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>%
+    pageEncoding="UTF-8"%>
+    
+
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://"
             + request.getServerName() + ":" + request.getServerPort()
             + path + "/";
+%>
+<%
+String student_no = request.getParameter("student_no");
+session.setAttribute("student_no", student_no);
 %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -12,7 +18,34 @@
    <base href="<%=basePath%>">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <%@ page language="java" import="java.util.*"%>
+         <% 
+							List<String> list = (ArrayList<String>)request.getAttribute("TagList");
+		%>
+    <script type="text/javascript">
+    function submit(){
+    	document.getElementById("account").submit();
+    	request.setAttribute("student_no", "student_no");
+    }
+    </script>
     <title>人物画像</title>
+    <style type="text/css">
+/* tagscloud */
+
+#tagscloud{width:250px;height:260px;position:relative;font-size:12px;color:#333;margin:20px auto 0;text-align:center;}
+
+#tagscloud a{position:absolute;top:0px;left:0px;color:#333;font-family:Arial;text-decoration:none;margin:0 10px 15px 0;line-height:18px;text-align:center;font-size:12px;padding:1px 5px;display:inline-block;border-radius:3px;}
+
+#tagscloud a.tagc1{background:#666;color:#fff;}
+
+#tagscloud a.tagc2{background:#F16E50;color:#fff;}
+
+#tagscloud a.tagc3{background:#006633;color:#fff;}
+
+#tagscloud a:hover{color:#fff;background:#0099ff;}
+
+</style>
+     <script src='js/tagscloud.js' type="text/javascript"></script>
     <!-- Bootstrap Styles-->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
      <!-- FontAwesome Styles-->
@@ -32,7 +65,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><strong>软酷</strong></a>
+                <a class="navbar-brand" href="index.jsp"><img src="assets/img/logo.png" alt="软酷网" style="position:absolute;bottom:8px; ">
+</a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
@@ -291,9 +325,42 @@
                         <div class="panel-heading">
                             画像信息
                         </div>
+                              <form id="account" method="post"  action="figure/UserProfile">
                         <div class="panel-body">
-                            <p style="font-size:14px;">请</p></br>
+                                                        <p style="font-size:14px;">请输入学生账号查看标签。</p></br>
+                            <div style="float: left;">
+                                <form >
+                                    <input  class="form-control" placeholder="学生账号"  id="student_no" name="student_no"  value=<%=session.getAttribute("student_no")%>  >
+                                </form>
+                            </div> 
+                             <div style="float: left;">
+                                                 &nbsp;&nbsp;&nbsp;&nbsp;
+                                                       </div>                            
+                            <!-- 确认按钮  -->
+                            <div style="float: left;">
+                            <button type="button" class="btn btn-primary" onclick="submit();">确认</button>
+                            </div>
                         </div>
+                  
+                        <div id="tagscloud">
+                        
+                           <%
+                                    	if(list==null||list.size()<=0){
+                                    		out.println("<td></td>");
+                                    	}else{
+                                    		for(int j=0;j<3;j++){
+                                    		for(int i=0;i<list.size();i++){
+                                    			String temp="tagc"+String.valueOf((i+1));
+                                            	out.println("<a href='#' class='"+temp+"'>"+list.get(i)+"</a>");
+                                    		}
+                                    		}
+                                    	}                                    
+                               %>
+                  
+           
+<!--                               <a href='#' class='tagc1'>入门小白</a><a href='#' class='tagc2'>这个人有点儿懒</a><a href='#' class='tagc3'>成为学霸的路上</a> -->
+                        </div>
+                        </form>
                  </div>
 
 
@@ -314,6 +381,7 @@
     <script src="assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
     <script src="assets/js/custom-scripts.js"></script>
+<!--      <script id="reloadjs" src='js/tagscloud.js' type="text/javascript"></script> -->
     
    
 </body>

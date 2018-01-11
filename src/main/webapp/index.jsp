@@ -30,7 +30,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.jsp"><strong>软酷</strong></a>
+                <a class="navbar-brand" href="index.jsp"><img src="assets/img/logo.png" alt="软酷网" style="position:absolute;bottom:8px; ">
+                </a>
 				
 		<div id="sideNav" href=""><i class="fa fa-caret-right"></i></div>
             </div>

@@ -80,7 +80,8 @@ window.onload = initPieChart;
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><strong>软酷</strong></a>
+                <a class="navbar-brand" href="index.jsp"><img src="assets/img/logo.png" alt="软酷网" style="position:absolute;bottom:8px; ">
+</a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right">

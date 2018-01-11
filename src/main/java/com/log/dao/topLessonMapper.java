@@ -23,6 +23,7 @@ public interface topLessonMapper {
     int updateByPrimaryKey(topLesson record);
     
     List<LinkedHashMap<String,Object>> topLesson();
+    
     List<topLessonPojo> randomTopLesson(@Param("startTime") String startTime,@Param("endTime") String endTime);
     
 }

@@ -47,7 +47,7 @@ public class topLessonController {
 			List<topLessonPojo> lessonList=new ArrayList<topLessonPojo>();
 			lessonList=this.toplessonService.randomTopLesson(startTime, endTime);
 			for(int i=0;i<lessonList.size();i++){
-				System.out.println(lessonList.get(i).getBook_id()+"*****"+lessonList.get(i).getRank());
+				System.out.println(lessonList.get(i).getBook_name()+"*****"+lessonList.get(i).getRank());
 			}
 	            return lessonList;
    
