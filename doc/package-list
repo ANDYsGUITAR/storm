@@ -1,0 +1,8 @@
+com.log.controller
+com.log.dao
+com.log.model
+com.log.pojo
+com.log.service
+com.log.service.impl
+com.log.utils
+org.zyp.testmybatis
